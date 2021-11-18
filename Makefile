@@ -1,5 +1,5 @@
 TARGET=kernel
-OBJ=kernel.o start.o
+OBJ=console.o io.o kernel.o start.o
 
 SRC_DIR=src
 INCLUDE_DIR=include
