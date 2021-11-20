@@ -15,3 +15,5 @@ typedef unsigned int uint32_t;
   }
 
 void panic(char *msg, char *file, uint32_t line);
+
+void memset(void *p, uint8_t value, uint32_t len);
