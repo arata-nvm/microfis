@@ -24,6 +24,10 @@ $(TARGET): $(OBJ)
 run: all
 	qemu-system-x86_64 -kernel $(TARGET)
 
+.PHONY: debug
+debug: all
+	qemu-system-i386 -kernel $(TARGET) -s -S
+
 .PHONY: clean
 clean:
 	-rm -rf $(OBJ) $(TARGET)
