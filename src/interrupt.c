@@ -13,7 +13,9 @@
 idt_entry_t idt_entries[NUM_IDT];
 idt_t idt;
 
-static int_stub_t interrupt_stubs[] = {
+static isr_handler_t isr_handlers[NUM_IDT];
+
+static isr_stub_t isr_stubs[] = {
     isr_0,
     isr_1,
     isr_2,
@@ -46,6 +48,22 @@ static int_stub_t interrupt_stubs[] = {
     isr_29,
     isr_30,
     isr_31,
+    isr_32,
+    isr_33,
+    isr_34,
+    isr_35,
+    isr_36,
+    isr_37,
+    isr_38,
+    isr_39,
+    isr_40,
+    isr_41,
+    isr_42,
+    isr_43,
+    isr_44,
+    isr_45,
+    isr_46,
+    isr_47,
 };
 
 static void set_idt_entry(idt_entry_t *entry, uint32_t base, uint16_t selector, uint8_t flags) {
@@ -58,9 +76,13 @@ static void set_idt_entry(idt_entry_t *entry, uint32_t base, uint16_t selector, 
 
 static void setup_idt() {
   memset(&idt_entries, 0, sizeof(idt_entry_t) * NUM_IDT);
+  memset(&isr_handlers, 0, sizeof(isr_handler_t) * NUM_IDT);
 
   for (int i = INT0; i <= INT31; i++) {
-    set_idt_entry(&idt_entries[i], (uint32_t)interrupt_stubs[i], 0x08, 0x8E);
+    set_idt_entry(&idt_entries[i], (uint32_t)isr_stubs[i], 0x08, 0x8E);
+  }
+  for (int i = IRQ0; i <= IRQ15; i++) {
+    set_idt_entry(&idt_entries[i], (uint32_t)isr_stubs[i], 0x08, 0x8E);
   }
 }
 
@@ -99,9 +121,20 @@ void interrupt_init() {
   load_idt();
 }
 
+void interrupt_add_handler(uint8_t intno, isr_handler_t handler) {
+  isr_handlers[intno] = handler;
+}
+
 void interrupt_dispatcher(isr_frame_t frame) {
-  console_write("interrupt: ");
-  console_write_dec(frame.intno);
-  console_write("\n");
-  PANIC("UNHANDLED EXCEPTION");
+  // notify EOI
+  if (0x20 <= frame.intno && frame.intno <= 0x28 + 7) {
+    if (frame.intno >= 0x28) {
+      outb(PIC2_CMD, 0x20);
+    }
+    outb(PIC1_CMD, 0x20);
+  }
+
+  if (isr_handlers[frame.intno] != 0) {
+    isr_handlers[frame.intno](frame);
+  }
 }

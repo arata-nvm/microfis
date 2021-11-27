@@ -21,7 +21,8 @@ typedef struct {
   uint32_t eip, cs, eflags, prev_esp, ss;
 } isr_frame_t;
 
-typedef void (*int_stub_t)();
+typedef void (*isr_stub_t)();
+typedef void (*isr_handler_t)(isr_frame_t frame);
 
 enum {
   INT0,
@@ -75,5 +76,7 @@ enum {
 };
 
 void interrupt_init();
+
+void interrupt_add_handler(uint8_t intno, isr_handler_t handler);
 
 void interrupt_dispatcher(isr_frame_t frame);
