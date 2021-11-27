@@ -1,5 +1,14 @@
 TARGET=kernel
-OBJ=common.o console.o interrupt.o io.o isr.o kernel.o segmentation.o start.o
+OBJ= \
+	common.o \
+	console.o \
+	interrupt.o \
+	io.o \
+	isr.o \
+	kernel.o \
+	keyboard.o \
+	segmentation.o \
+	start.o
 
 SRC_DIR=src
 INCLUDE_DIR=include

@@ -1,11 +1,8 @@
 #include <common.h>
 #include <console.h>
 #include <interrupt.h>
+#include <keyboard.h>
 #include <segmentation.h>
-
-void timer_interrupt_handler(isr_frame_t __attribute__((unused)) frame) {
-  console_write(".");
-}
 
 void kmain() {
   console_clear();
@@ -16,8 +13,18 @@ void kmain() {
 
   console_write("[*] initializing interrupt...");
   interrupt_init();
-  interrupt_add_handler(32, timer_interrupt_handler);
+  console_write("done\n");
+
+  console_write("[*] initializing keyboard...");
+  keyboard_init();
   console_write("done\n");
 
   asm volatile("sti");
+
+  uint16_t key;
+  while (1) {
+    if ((key = keyboard_getkey()) != 0) {
+      console_putchar(key & KEY_CHAR_MASK);
+    }
+  }
 }

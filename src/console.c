@@ -54,6 +54,11 @@ void console_putchar(char c) {
   } else if (c == '\n') {
     cursor_x = 0;
     cursor_y++;
+  } else if (c == '\b') {
+    if (cursor_x != 0) {
+      cursor_x--;
+      FRAME_BUFFER[buffer_index(cursor_x, cursor_y)] = ' ';
+    }
   } else {
     FRAME_BUFFER[buffer_index(cursor_x, cursor_y)] = c;
     cursor_x++;
