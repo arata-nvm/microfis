@@ -1,12 +1,12 @@
 TARGET=kernel
-OBJ=common.o console.o io.o kernel.o segmentation.o start.o
+OBJ=common.o console.o interrupt.o io.o isr.o kernel.o segmentation.o start.o
 
 SRC_DIR=src
 INCLUDE_DIR=include
 
-CCFLAGS=-g -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -Wall -Wextra -Werror
+CCFLAGS=-g -m32 -masm=intel -nostdlib -nostdinc -fno-builtin -fno-stack-protector -Wall -Wextra -Werror
 LDFLAGS=-Tlink.ld -melf_i386
-ASFLAGS=--32
+ASFLAGS=--32 -msyntax=intel
 
 .PHONY: all
 all: $(TARGET)

@@ -1,3 +1,5 @@
+.intel_syntax noprefix
+
 .equ MBOOT_MAGIC, 0x1BADB002
 .equ MBOOT_FLAGS_PAGE_ALIGN, 0x1
 .equ MBOOT_FLAGS_MEMORY_INFO, 0x2
@@ -16,8 +18,8 @@ mboot_header:
 
 .global start
 start:
-  push %eax
-  push %ebx
+  push eax
+  push ebx
   call kmain
 .loop:
   jmp .loop

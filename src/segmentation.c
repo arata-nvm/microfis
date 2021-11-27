@@ -37,13 +37,13 @@ static void load_gdt() {
   gdt.limit = sizeof(gdt_entry_t) * NUM_SEGMENT - 1;
 
   asm volatile("lgdt gdt;"
-               "mov %ax, 0x10;"
-               "mov %ds, %ax;"
-               "mov %es, %ax;"
-               "mov %fs, %ax;"
-               "mov %gs, %ax;"
-               "mov %ss, %ax;"
-               "jmp $0x08, $.load_gdt.flush;"
+               "mov ax, 0x10;"
+               "mov ds, ax;"
+               "mov es, ax;"
+               "mov fs, ax;"
+               "mov gs, ax;"
+               "mov ss, ax;"
+               "jmp 0x08, .load_gdt.flush;"
                ".load_gdt.flush:");
 }
 
