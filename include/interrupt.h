@@ -77,6 +77,10 @@ enum {
 
 void interrupt_init();
 
+void interrupt_disable();
+
+void interrupt_enable();
+
 void interrupt_add_handler(uint8_t intno, isr_handler_t handler);
 
 void interrupt_dispatcher(isr_frame_t frame);

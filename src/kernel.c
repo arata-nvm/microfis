@@ -19,7 +19,7 @@ void kmain() {
   keyboard_init();
   console_write("done\n");
 
-  asm volatile("sti");
+  interrupt_enable();
 
   uint16_t key;
   while (1) {
