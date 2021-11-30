@@ -1,6 +1,7 @@
 #include <console.h>
 #include <interrupt.h>
 #include <keyboard.h>
+#include <multiboot.h>
 #include <segmentation.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -23,8 +24,19 @@ void kernel_init() {
   interrupt_enable();
 }
 
-void kmain() {
+void show_mmap(multiboot_info_t *mboot_info) {
+  kprintf("=================== memory map ===================\n");
+  memory_map_t *mmap = (memory_map_t *)mboot_info->mmap_addr;
+  while ((uint32_t)mmap < (mboot_info->mmap_addr + mboot_info->mmap_length)) {
+    kprintf("base_addr=0x%x%08x, length=0x%x%08x, type=0x%x\n", mmap->base_addr_high, mmap->base_addr_low, mmap->length_high, mmap->length_low, mmap->type);
+    mmap++;
+  }
+  kprintf("==================================================\n");
+}
+
+void kmain(multiboot_info_t *mboot_info) {
   kernel_init();
+  show_mmap(mboot_info);
 
   uint16_t key;
   while (1) {
