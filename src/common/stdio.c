@@ -65,7 +65,8 @@ void kprintf(char *format, ...) {
     char *s;
     switch (*format) {
     case 'c':
-      console_putchar(va_arg(ap, int));
+      char buf[] = {(char)va_arg(ap, int), 0};
+      s = buf;
       break;
     case 'u':
       s = utoa(va_arg(ap, uint32_t), 10);
