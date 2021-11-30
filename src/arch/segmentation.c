@@ -1,4 +1,5 @@
 #include <segmentation.h>
+#include <string.h>
 
 #define NUM_SEGMENT 5
 

@@ -1,6 +1,6 @@
-#include <common.h>
 #include <console.h>
 #include <io.h>
+#include <stdint.h>
 
 #define PORT_COMMAND 0x3D4
 #define PORT_DATA 0x3D5

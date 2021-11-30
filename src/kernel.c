@@ -1,8 +1,8 @@
-#include <common.h>
 #include <console.h>
 #include <interrupt.h>
 #include <keyboard.h>
 #include <segmentation.h>
+#include <stdint.h>
 
 void kmain() {
   console_clear();

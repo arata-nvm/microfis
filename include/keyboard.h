@@ -1,5 +1,5 @@
 #pragma once
-#include <common.h>
+#include <stdint.h>
 
 #define KEY_CHAR_MASK 0x00ff
 #define KEY_SHIFT_MASK 0x0100
