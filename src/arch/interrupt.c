@@ -1,4 +1,3 @@
-#include <console.h>
 #include <interrupt.h>
 #include <io.h>
 #include <isr.h>

@@ -82,17 +82,3 @@ void console_write(char *s) {
     s++;
   }
 }
-
-void console_write_dec(uint32_t i) {
-  char buf[16];
-  buf[15] = 0;
-
-  char *buf_ptr = &buf[14];
-  do {
-    *buf_ptr = '0' + (i % 10);
-    buf_ptr--;
-    i /= 10;
-  } while (i != 0);
-
-  console_write(buf_ptr + 1);
-}

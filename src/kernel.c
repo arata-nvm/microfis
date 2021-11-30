@@ -3,23 +3,28 @@
 #include <keyboard.h>
 #include <segmentation.h>
 #include <stdint.h>
+#include <stdio.h>
 
-void kmain() {
+void kernel_init() {
   console_clear();
 
-  console_write("[*] initializing segmentation...");
+  kprintf("[*] initializing segmentation...");
   segmentation_init();
-  console_write("done\n");
+  kprintf("done\n");
 
-  console_write("[*] initializing interrupt...");
+  kprintf("[*] initializing interrupt...");
   interrupt_init();
-  console_write("done\n");
+  kprintf("done\n");
 
-  console_write("[*] initializing keyboard...");
+  kprintf("[*] initializing keyboard...");
   keyboard_init();
-  console_write("done\n");
+  kprintf("done\n");
 
   interrupt_enable();
+}
+
+void kmain() {
+  kernel_init();
 
   uint16_t key;
   while (1) {
