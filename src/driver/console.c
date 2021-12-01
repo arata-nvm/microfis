@@ -46,6 +46,10 @@ void console_clear() {
       FRAME_BUFFER[buffer_index(x, y)] = 0;
     }
   }
+
+  cursor_x = 0;
+  cursor_y = 0;
+  move_cursor(0, 0);
 }
 
 void console_putchar(char c) {
