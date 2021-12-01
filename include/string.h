@@ -4,3 +4,5 @@
 void memset(void *p, uint8_t value, uint32_t len);
 
 uint32_t strlen(char *s);
+
+int32_t strcmp(char *s1, char *s2);

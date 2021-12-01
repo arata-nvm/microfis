@@ -3,6 +3,7 @@
 #include <keyboard.h>
 #include <multiboot.h>
 #include <segmentation.h>
+#include <shell.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -37,11 +38,5 @@ void show_mmap(multiboot_info_t *mboot_info) {
 void kmain(multiboot_info_t *mboot_info) {
   kernel_init();
   show_mmap(mboot_info);
-
-  uint16_t key;
-  while (1) {
-    if ((key = keyboard_getkey()) != 0) {
-      console_putchar(key & KEY_CHAR_MASK);
-    }
-  }
+  shell_prompt();
 }
