@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 project(microfis C ASM)
 
 file(GLOB_RECURSE SRC *.c *.s)
-include_directories(include)
+include_directories(include/kernel include/libc)
 
 set(TARGET kernel)
 
