@@ -23,3 +23,11 @@ int32_t strcmp(char *s1, char *s2) {
   }
   return *s1 - *s2;
 }
+
+char *strcpy(char *s1, char *s2) {
+  char *s = s1;
+  do {
+    *(s1++) = *s2;
+  } while (*(s2++) != 0);
+  return s;
+}
