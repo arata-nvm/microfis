@@ -1,6 +1,7 @@
 #include <interrupt.h>
 #include <io.h>
 #include <keyboard.h>
+#include <stdbool.h>
 
 #define KEYBOARD_DATA 0x60
 
@@ -15,8 +16,8 @@
 #define ASCII_HT 0x9
 
 static uint8_t key_shift_pressed;
-static uint8_t key_ctrl_pressed;
-static uint8_t key_alt_pressed;
+static bool key_ctrl_pressed;
+static bool key_alt_pressed;
 
 static uint16_t last_keycode;
 
@@ -53,10 +54,10 @@ void keyboard_handler(isr_frame_t __attribute__((unused)) frame) {
       key_shift_pressed &= ~0b01;
       break;
     case KEY_CTRL:
-      key_ctrl_pressed = 0;
+      key_ctrl_pressed = false;
       break;
     case KEY_ALT:
-      key_alt_pressed = 0;
+      key_alt_pressed = false;
       break;
     }
   } else {
@@ -70,10 +71,10 @@ void keyboard_handler(isr_frame_t __attribute__((unused)) frame) {
       key_shift_pressed |= 0b01;
       break;
     case KEY_CTRL:
-      key_ctrl_pressed = 1;
+      key_ctrl_pressed = true;
       break;
     case KEY_ALT:
-      key_alt_pressed = 1;
+      key_alt_pressed = true;
       break;
 
     default:
