@@ -1,5 +1,6 @@
 #include <console.h>
 #include <interrupt.h>
+#include <kernel.h>
 #include <keyboard.h>
 #include <kprintf.h>
 #include <multiboot.h>
@@ -10,6 +11,7 @@
 #include <stdio.h>
 #include <syscall.h>
 #include <unistd.h>
+#include <virtual_memory.h>
 
 void panic(char *msg, char *file, uint32_t line) {
   kprintf("PANIC `%s` at %s:%u", msg, file, line);
@@ -37,8 +39,14 @@ void kernel_init(multiboot_info_t *mboot_info) {
   syscall_init();
   kprintf("done\n");
 
-  kprintf("[*] initializing memory...");
+  kprintf("[*] initializing physical memory...");
   physical_memory_init(mboot_info);
+  kprintf("done\n");
+
+  kprintf("[*] initializing virtual memory...");
+  if (!virtual_memory_init()) {
+    PANIC("FAILED TO INITIALIZE VIRTUAL MEMORY");
+  }
   kprintf("done\n");
 
   interrupt_enable();
