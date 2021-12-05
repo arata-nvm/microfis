@@ -49,5 +49,5 @@ typedef struct {
   } u;
 
   uint32_t mmap_length;
-  uint32_t mmap_addr;
+  memory_map_t *mmap_addr;
 } multiboot_info_t;
