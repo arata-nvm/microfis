@@ -65,6 +65,9 @@ void show_mmap(multiboot_info_t *mboot_info) {
 void kmain(multiboot_info_t *mboot_info) {
   kernel_init(mboot_info);
   show_mmap(mboot_info);
+
+  uint32_t *ptr = (uint32_t *)0xA0000000;
+  uint32_t __attribute__((unused)) v = *ptr;
   write(STDOUT, "Hello!\n", 8);
   shell_prompt();
 }

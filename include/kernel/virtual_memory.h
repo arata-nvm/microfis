@@ -1,4 +1,5 @@
 #pragma once
+#include <interrupt.h>
 #include <stdint.h>
 
 #define PTE_FRAME_ADDR_MASK 0xFFFFF000

@@ -1,3 +1,5 @@
+#include <kernel.h>
+#include <kprintf.h>
 #include <physical_memory.h>
 #include <string.h>
 #include <virtual_memory.h>
@@ -108,7 +110,13 @@ void free_page(page_table_entry_t *entry) {
   entry->present = false;
 }
 
-#include <kprintf.h>
+void page_fault(isr_frame_t __attribute__((unused)) frame) {
+  uint32_t addr;
+  asm volatile("mov %0, cr2"
+               : "=r"(addr));
+  kprintf("access to 0x%x\n", addr);
+  PANIC("PAGE FAULT");
+}
 
 bool virtual_memory_init() {
   page_directory_t *page_directory = (page_directory_t *)alloc_block();
@@ -141,6 +149,8 @@ bool virtual_memory_init() {
 
   switch_directory(page_directory);
   enable_paging();
+
+  interrupt_add_handler(INT14, page_fault);
 
   return true;
 }
