@@ -1,4 +1,5 @@
 #include <console.h>
+#include <heap.h>
 #include <interrupt.h>
 #include <kernel.h>
 #include <keyboard.h>
@@ -66,8 +67,11 @@ void kmain(multiboot_info_t *mboot_info) {
   kernel_init(mboot_info);
   show_mmap(mboot_info);
 
-  uint32_t *ptr = (uint32_t *)0xA0000000;
-  uint32_t __attribute__((unused)) v = *ptr;
+  kprintf("%x\n", kmalloc(4));
+  kprintf("%x\n", kmalloc(8));
+  kprintf("%x\n", kmalloc(16));
+  kprintf("%x\n", kmalloc(8));
+
   write(STDOUT, "Hello!\n", 8);
   shell_prompt();
 }

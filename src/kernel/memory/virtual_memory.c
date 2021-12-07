@@ -30,6 +30,12 @@ static page_directory_entry_t *get_pde(page_directory_t *directory, uint32_t vir
   return &directory->entries[calc_pde_index(virt_addr)];
 }
 
+static uint32_t calc_phys_addr(uint32_t virt_addr) {
+  page_directory_entry_t *pde = get_pde(current_directory, virt_addr);
+  page_table_entry_t *pte = get_pte((page_table_t *)(uint32_t)pde->table_address, virt_addr);
+  return pte->frame_address | (virt_addr & 0x3FF);
+}
+
 static void write_cr3(uint32_t directory_addr) {
   asm volatile("mov cr3, %0" ::"r"(directory_addr));
 }

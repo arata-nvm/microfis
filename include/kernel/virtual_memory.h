@@ -43,6 +43,8 @@ typedef struct {
   page_directory_entry_t entries[1024];
 } page_directory_t;
 
+bool map_page(uint32_t phys_addr, uint32_t virt_addr);
+
 page_table_entry_t *alloc_page(page_table_entry_t *entry);
 
 void free_page(page_table_entry_t *entry);
