@@ -111,10 +111,14 @@ void free_page(page_table_entry_t *entry) {
 }
 
 void page_fault(isr_frame_t __attribute__((unused)) frame) {
-  uint32_t addr;
+  uint32_t i;
   asm volatile("mov %0, cr2"
-               : "=r"(addr));
-  kprintf("access to 0x%x\n", addr);
+               : "=r"(i));
+  kprintf("cr2 =  0x%x\n", i);
+  asm volatile("mov %0, cr3"
+               : "=r"(i));
+  kprintf("cr3 =  0x%x\n", i);
+  kprintf("error code = 0x%x\n", frame.errno);
   PANIC("PAGE FAULT");
 }
 
