@@ -27,7 +27,7 @@ bool find_free_block(uint32_t *block_num) {
     }
 
     for (uint32_t bit_num = 0; bit_num < 32; bit_num++) {
-      if (pm_info.memory_map[index] & (1 << bit_num)) {
+      if ((pm_info.memory_map[index] & (1 << bit_num)) == 0) {
         *block_num = index * sizeof(uint32_t) * 8 + bit_num;
         return true;
       }
