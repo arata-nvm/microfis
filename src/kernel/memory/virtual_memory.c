@@ -11,7 +11,7 @@ static uint32_t calc_pte_index(uint32_t virt_addr) {
 }
 
 static uint32_t calc_pde_index(uint32_t virt_addr) {
-  return (virt_addr >> 22) && 0x3FF;
+  return (virt_addr >> 22) & 0x3FF;
 }
 
 static page_table_entry_t *get_pte(page_table_t *table, uint32_t virt_addr) {
