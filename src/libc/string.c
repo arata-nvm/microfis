@@ -52,3 +52,31 @@ char *strncpy(char *s1, char *s2, uint32_t n) {
 
   return s;
 }
+
+char *strtok(char *s1, char c) {
+  static char *last = NULL;
+
+  if (s1 == NULL && last == NULL) {
+    return NULL;
+  }
+
+  if (last == NULL) {
+    last = s1;
+  }
+
+  char *s = last;
+  s1 = last;
+  while (*s1 != c && *s1 != 0) {
+    s1++;
+  }
+
+  if (*s1 == 0) {
+    last = NULL;
+  } else {
+    last = s1 + 1;
+  }
+
+  *s1 = 0;
+
+  return s;
+}

@@ -1,4 +1,5 @@
 #include <console.h>
+#include <fs.h>
 #include <keyboard.h>
 #include <kprintf.h>
 #include <shell.h>
@@ -6,8 +7,36 @@
 #include <string.h>
 
 static void exec_command(char *s) {
-  if (!strcmp(s, "clear")) {
+  char *cmd = strtok(s, ' ');
+  if (!strcmp(cmd, "clear")) {
     console_clear();
+  } else if (!strcmp(cmd, "ls")) {
+    uint32_t i = 0;
+    while (true) {
+      dirent *entry = fs_readdir(i);
+      if (entry == NULL) {
+        break;
+      }
+
+      kprintf("%s\n", entry->name);
+      i++;
+    }
+  } else if (!strcmp(cmd, "cat")) {
+    char *filename = strtok(NULL, ' ');
+    if (filename == NULL) {
+      kprintf("usage: cat <file>\n");
+      return;
+    }
+
+    file_t *file = fs_open(filename);
+    if (file == NULL) {
+      kprintf("file not found: %s\n", filename);
+      return;
+    }
+
+    char buf[32];
+    fs_read(file, 32, buf);
+    kprintf("%s\n", buf);
   } else {
     kprintf("command `%s` not found\n", s);
   }

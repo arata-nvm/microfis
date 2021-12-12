@@ -72,24 +72,6 @@ void kmain(multiboot_info_t *mboot_info) {
   kernel_init(mboot_info);
   show_mmap(mboot_info);
 
-  uint32_t i = 0;
-  while (true) {
-    dirent *entry = fs_readdir(i);
-    if (entry == NULL) {
-      break;
-    }
-
-    file_t *file = fs_open(entry->name);
-    if (file == NULL) {
-      PANIC("FILE DOES NOT EXIST");
-    }
-
-    char buf[32];
-    uint32_t size = fs_read(file, 32, buf);
-    kprintf("%s = \"%s\"(%u bytes)\n", entry->name, buf, size);
-    i++;
-  }
-
   write(STDOUT, "Hello!\n", 8);
   shell_prompt();
 }
