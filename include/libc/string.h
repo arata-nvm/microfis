@@ -8,3 +8,5 @@ uint32_t strlen(char *s);
 int32_t strcmp(char *s1, char *s2);
 
 char *strcpy(char *s1, char *s2);
+
+char *strncpy(char *s1, char *s2, uint32_t n);

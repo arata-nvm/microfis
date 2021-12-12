@@ -1,4 +1,5 @@
 #include <console.h>
+#include <fs.h>
 #include <heap.h>
 #include <interrupt.h>
 #include <kernel.h>
@@ -50,6 +51,10 @@ void kernel_init(multiboot_info_t *mboot_info) {
   }
   kprintf("done\n");
 
+  kprintf("[*] initializing file system...");
+  fs_init();
+  kprintf("done\n");
+
   interrupt_enable();
 }
 
@@ -67,10 +72,23 @@ void kmain(multiboot_info_t *mboot_info) {
   kernel_init(mboot_info);
   show_mmap(mboot_info);
 
-  kprintf("%x\n", kmalloc(4));
-  kprintf("%x\n", kmalloc(8));
-  kprintf("%x\n", kmalloc(16));
-  kprintf("%x\n", kmalloc(8));
+  uint32_t i = 0;
+  while (true) {
+    dirent *entry = fs_readdir(i);
+    if (entry == NULL) {
+      break;
+    }
+
+    file_t *file = fs_open(entry->name);
+    if (file == NULL) {
+      PANIC("FILE DOES NOT EXIST");
+    }
+
+    char buf[32];
+    uint32_t size = fs_read(file, 32, buf);
+    kprintf("%s = \"%s\"(%u bytes)\n", entry->name, buf, size);
+    i++;
+  }
 
   write(STDOUT, "Hello!\n", 8);
   shell_prompt();
