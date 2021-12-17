@@ -59,9 +59,10 @@ int vsprintf(char *s, char *format, va_list ap) {
     }
 
     char *buf;
+    char c[2] = {};
     switch (*format) {
     case 'c':
-      char c[] = {(char)va_arg(ap, int), 0};
+      c[0] =  (char)va_arg(ap, int);
       buf = c;
       break;
     case 'u':
