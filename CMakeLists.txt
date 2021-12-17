@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 2.8)
 project(microfis C ASM)
 
 file(GLOB_RECURSE SRC *.c *.s)
